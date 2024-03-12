@@ -10,11 +10,8 @@
 
 </script>
 
-<div class="inline-block">
-	<div class="flex flex-row-reverse gap-2">
-		{#each Array(maxTries).fill(0).map((_, i) => i) as heart}
-			<img class="{width} {tries === 2 && heart === maxTries - 1 ? 'animate-pulse' : ''}" src={tries > heart ? DeadHeart : Heart} alt="heart" />
-		{/each}
-	</div>
-
+<div class="flex justify-end flex-row-reverse">
+	{#each Array(maxTries).fill(0).map((_, i) => i) as heart}
+		<img class="{width} {tries === 2 && heart === maxTries - 1 ? 'animate-pulse' : ''}" src={tries > heart ? DeadHeart : Heart} alt="heart" />
+	{/each}
 </div>

@@ -14,13 +14,13 @@
 	class="max-w-[32em] rounded-md border-none p-0"
 	bind:this={dialog}
 	on:close={() => { handleClose(); showModal = false; }}
-	on:click|self={() => { handleClose(); dialog.close(); }}
+	on:click|self={() => { dialog.close(); }}
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="p-4" on:click|stopPropagation>
 		<slot name="header" />
 		<slot />
-		<button class="" on:click={() => { handleClose(); dialog.close(); }}>Continuer</button>
+		<button class="" on:click={() => { dialog.close(); }}>Continuer</button>
 	</div>
 </dialog>
 

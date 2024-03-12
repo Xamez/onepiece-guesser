@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
-	import { afterUpdate, onMount } from 'svelte';
+	import { afterUpdate } from 'svelte';
 	import Fa from 'svelte-fa';
 
 	export let portraitSrc = '';
-	export let width = 'w-1/4'
+	export let width;
 
 	let lastPortraitSrc = '';
 	let imageUrl = '';
@@ -35,5 +35,5 @@
 {#if imageUrl === ''}
 	<Fa icon={faSpinner} class="text-6xl text-gray-800" spin/>
 {:else}
-	<img src="{imageUrl}" alt="" class={width}/>
+	<img src="{imageUrl}" alt="" class="{width} rounded-md"/>
 {/if}

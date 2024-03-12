@@ -19,7 +19,11 @@
 	function pickRandomCharacter(): void {
 		const selectedCharacter = getGameStates(route).selectedCharacter;
 		let newCharacter = data[Math.floor(Math.random() * data.length)];
-		if (newCharacter === selectedCharacter) pickRandomCharacter();
+		if (newCharacter === selectedCharacter) {
+			pickRandomCharacter();
+			return;
+		}
+		console.log("called");
 		setGameState(route, { ...getGameStates(route), selectedCharacter: newCharacter, tries: 0 });
 	}
 
@@ -54,27 +58,26 @@
 	});
 </script>
 
-<!--TODO: REMOVE IT-->
-<button on:click={() => pickRandomCharacter()}>Changer de personnage</button>
+<div class="flex flex-col items-center gap-2">
 
-<p>Nom: {$gameStates.state.get(route)?.selectedCharacter.name}</p>
-<Image portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
+	<Image width="w-full border-2 border-[#e7ddbd]" portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
 
-<Life tries="{$gameStates.state.get(route)?.tries ?? 0}" maxTries="{$gameRules.maxTries ?? 0}" />
+	<Life tries="{$gameStates.state.get(route)?.tries ?? 0}" maxTries="{$gameRules.maxTries ?? 0}" />
 
-<form on:submit|preventDefault="{() => validateUserGuess()}">
-	<label for="userGuess">Nom:</label>
-	<input type="text" id="userGuess" bind:value="{userGuess}">
-</form>
+	<form on:submit|preventDefault="{() => validateUserGuess()}">
+		<label for="userGuess">Nom:</label>
+		<input type="text" id="userGuess" bind:value="{userGuess}">
+	</form>
+</div>
 
 <!--TODO: DISPLAY MODAL WITH INFO ABOUT CHARACTER (from https://onepiece.fandom.com/fr/wiki/{NAME})-->
 
-<!--<Modal bind:showModal {handleClose}>-->
-<Modal showModal={true} {handleClose}>
+<Modal bind:showModal {handleClose}>
+<!--<Modal showModal={true} {handleClose}>-->
 	<h2 slot="header" class="font-bold text-center">{hasWon ? "Bien joué !" : "Perdu !"}</h2>
 	<Image width="w-1/2" portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
 	<p>{$gameStates.state.get(route)?.selectedCharacter.name}</p>
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Etiam non elit dui. Nullam vel eros sit amet arcu vestibulum accumsan in in leo.</p>
+	<p>Todo: description du personnage !</p>
 </Modal>
 
 
