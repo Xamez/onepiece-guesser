@@ -33,7 +33,7 @@
 </script>
 
 {#if imageUrl === ''}
-	<Fa icon={faSpinner} class="text-6xl text-gray-800" spin/>
+	<Fa icon={faSpinner} class="text-6xl text-gray-300" spin/>
 {:else}
 	<img src="{imageUrl}" alt="" class="{width} rounded-md"/>
 {/if}

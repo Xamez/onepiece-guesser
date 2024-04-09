@@ -35,7 +35,7 @@
 	<img src={pipe} class="z-30 absolute left-3/4 top-12 w-48" alt="Pipe">
 	<img src={gun} class="z-30 absolute bottom-0 left-0 w-48" alt="Gun">
 	<img src={longView} class="hidden md:block absolute top-0 left-1/2 w-24" alt="Long View">
-	<img src={wallpaper} class="h-[100vh] object-cover" alt="One Piece Wallpaper">
+	<img src={wallpaper} class="w-[100vw] h-[100vh]" alt="One Piece Wallpaper">
 </div>
 
 <style>

@@ -7,6 +7,7 @@
 	import Modal from '$components/modal.svelte';
 	import { gameRules, gameStates, getGameRules, getGameStates, setGameState } from '$lib/store';
 	import { stringMatcher } from '$lib/matcher';
+	import wood from '$assets/wood.png';
 
 	export let route: string;
 	export let data: Character[];
@@ -14,7 +15,8 @@
 	let userGuess: string = '';
 	let hasWon: boolean | undefined = undefined;
 
-	$: showModal = hasWon !== undefined;
+	// $: showModal = hasWon !== undefined;
+	$: showModal = true
 
 	function pickRandomCharacter(): void {
 		const selectedCharacter = getGameStates(route).selectedCharacter;
@@ -60,24 +62,23 @@
 
 <div class="flex flex-col items-center gap-2">
 
-	<Image width="w-full border-2 border-[#e7ddbd]" portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
+	<Image width="w-[85%] border-2 border-[#e7ddbd]" portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
 
 	<Life tries="{$gameStates.state.get(route)?.tries ?? 0}" maxTries="{$gameRules.maxTries ?? 0}" />
 
 	<form on:submit|preventDefault="{() => validateUserGuess()}">
 		<label for="userGuess">Nom:</label>
-		<input type="text" id="userGuess" bind:value="{userGuess}">
+		<input class="focus:outline-none bg-transparent border-b-2" type="text" id="userGuess" bind:value="{userGuess}">
 	</form>
 </div>
 
 <!--TODO: DISPLAY MODAL WITH INFO ABOUT CHARACTER (from https://onepiece.fandom.com/fr/wiki/{NAME})-->
 
 <Modal bind:showModal {handleClose}>
-<!--<Modal showModal={true} {handleClose}>-->
-	<h2 slot="header" class="font-bold text-center">{hasWon ? "Bien joué !" : "Perdu !"}</h2>
-	<Image width="w-1/2" portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
-	<p>{$gameStates.state.get(route)?.selectedCharacter.name}</p>
-	<p>Todo: description du personnage !</p>
+	<h2 slot="header" class="font-bold text-center mb-4">{hasWon ? "Bien joué !" : "Perdu !"}</h2>
+	<Image width="w-[75%] mx-auto	" portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
+	<p class="text-center font-sans">{$gameStates.state.get(route)?.selectedCharacter.name}</p>
+<!--	<p class="font-sans">Todo: description du personnage !</p>-->
 </Modal>
 
 
