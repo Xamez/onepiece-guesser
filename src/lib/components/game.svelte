@@ -7,7 +7,6 @@
 	import Modal from '$components/modal.svelte';
 	import { gameRules, gameStates, getGameRules, getGameStates, setGameState } from '$lib/store';
 	import { stringMatcher } from '$lib/matcher';
-	import wood from '$assets/wood.png';
 
 	export let route: string;
 	export let data: Character[];
@@ -15,8 +14,7 @@
 	let userGuess: string = '';
 	let hasWon: boolean | undefined = undefined;
 
-	// $: showModal = hasWon !== undefined;
-	$: showModal = true
+	$: showModal = hasWon !== undefined;
 
 	function pickRandomCharacter(): void {
 		const selectedCharacter = getGameStates(route).selectedCharacter;
@@ -25,7 +23,6 @@
 			pickRandomCharacter();
 			return;
 		}
-		console.log("called");
 		setGameState(route, { ...getGameStates(route), selectedCharacter: newCharacter, tries: 0 });
 	}
 
@@ -39,11 +36,15 @@
 				gameState.winStreak = 0;
 				gameState.looseStreak++;
 				hasWon = false;
+				pickRandomCharacter();
+				console.log("called 1");
 			}
 		} else {
 			gameState.winStreak++;
 			gameState.looseStreak = 0;
 			hasWon = true;
+			pickRandomCharacter();
+			console.log("called 2");
 		}
 		userGuess = '';
 		setGameState(route, { ...gameState });
@@ -51,7 +52,8 @@
 
 	function handleClose() {
 		hasWon = undefined;
-		pickRandomCharacter();
+		console.log("oui");
+		// pickRandomCharacter();
 	}
 
 	onMount(async () => {
@@ -66,19 +68,26 @@
 
 	<Life tries="{$gameStates.state.get(route)?.tries ?? 0}" maxTries="{$gameRules.maxTries ?? 0}" />
 
+	<!-- Autocomplete input for userGuess -->
 	<form on:submit|preventDefault="{() => validateUserGuess()}">
 		<label for="userGuess">Nom:</label>
-		<input class="focus:outline-none bg-transparent border-b-2" type="text" id="userGuess" bind:value="{userGuess}">
+		<input
+			class="focus:outline-none bg-transparent border-b-2"
+			type="text"
+			id="userGuess"
+			bind:value="{userGuess}"
+			list="characterNames"
+		>
+		<datalist id="characterNames">
+			{#each data as character}
+				<option value="{character.name}">{character.name}</option>
+			{/each}
+		</datalist>
 	</form>
 </div>
-
-<!--TODO: DISPLAY MODAL WITH INFO ABOUT CHARACTER (from https://onepiece.fandom.com/fr/wiki/{NAME})-->
 
 <Modal bind:showModal {handleClose}>
 	<h2 slot="header" class="font-bold text-center mb-4">{hasWon ? "Bien joué !" : "Perdu !"}</h2>
 	<Image width="w-[75%] mx-auto	" portraitSrc={$gameStates.state.get(route)?.selectedCharacter.portraitSrc} />
 	<p class="text-center font-sans">{$gameStates.state.get(route)?.selectedCharacter.name}</p>
-<!--	<p class="font-sans">Todo: description du personnage !</p>-->
 </Modal>
-
-
